@@ -21,6 +21,12 @@ CPU ATMEL_AT91SAM7S256
   
   RESOURCE sMonMDD {RESOURCEPROPERTY = STANDARD;};
   
+  RESOURCE distanceObstacle {RESOURCEPROPERTY = STANDARD;};	
+  
+  RESOURCE etatChoc {RESOURCEPROPERTY = STANDARD;};
+  
+  RESOURCE avanceRecule {RESOURCEPROPERTY = STANDARD;};
+  
   TASK Task_AcqInfra 
   {
 	AUTOSTART = FALSE;
@@ -62,9 +68,95 @@ CPU ATMEL_AT91SAM7S256
     SCHEDULE = FULL;
     STACKSIZE = 512;
     RESOURCE = sMonMDD;
+    RESOURCE = avanceRecule;
+  };
+  
+  
+  
+   TASK Task_AcqUltrason 
+  {
+	AUTOSTART = FALSE;
+	PRIORITY = 1; /* lowest priority */
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512;
+    RESOURCE = distanceObstacle;
+    RESOURCE = avanceRecule;
+    
+  };
+  
+   ALARM cyclic_alarmAcqUltrason
+ {
+ 	COUNTER = SysTimerCnt;
+ 	ACTION = ACTIVATETASK
+ 	{
+ 		TASK = Task_AcqUltrason;
+ 	};
+ 	AUTOSTART = TRUE
+ 	{
+ 		ALARMTIME = 1;
+ 		CYCLETIME = 50;
+ 		APPMODE = appmode1;
+ 	};
+ };
+ 
+ 
+     TASK Task_AcqChoc
+  {
+	AUTOSTART = FALSE;
+	PRIORITY = 1; /* lowest priority */
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512;
+    RESOURCE = etatChoc;
+    RESOURCE = avanceRecule;
+    
   };
 
 
+   ALARM cyclic_alarmAcqChoc
+ {
+ 	COUNTER = SysTimerCnt;
+ 	ACTION = ACTIVATETASK
+ 	{
+ 		TASK = Task_AcqChoc;
+ 	};
+ 	AUTOSTART = TRUE
+ 	{
+ 		ALARMTIME = 1;
+ 		CYCLETIME = 50;
+ 		APPMODE = appmode1;
+ 	};
+ };
+ 
+ 
+
+ TASK Task_Afficher
+ {
+ 	AUTOSTART = FALSE;
+ 	PRIORITY = 1; /* lowest priority */
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512;
+    RESOURCE = distanceObstacle;
+    RESOURCE = etatChoc;
+  };
+  
+   ALARM cyclic_alarmAfficher
+ {
+ 	COUNTER = SysTimerCnt;
+ 	ACTION = ACTIVATETASK
+ 	{
+ 		TASK = Task_Afficher;
+ 	};
+ 	AUTOSTART = TRUE
+ 	{
+ 		ALARMTIME = 1;
+ 		CYCLETIME = 100;
+ 		APPMODE = appmode1;
+ 	};
+ };
+ 
 
 };
 
