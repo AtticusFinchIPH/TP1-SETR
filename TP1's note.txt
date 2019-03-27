@@ -1,0 +1,26 @@
+virtualbox.org/wiki
+older version 5.1.38 -> Extension : All Platforms
+
+---Terminal---
+sudo virtualbox
+sudo usermod -a -G vboxusers $USER
+groups $USER
+sudo reboot
+
+--password-- : ubuntu
+
+---Some Note about how to work with Virtuel machine---
+change USB 2.0 on Virtual machine.
+double click "all" : compiler
+		"clean" : supprimer tous les fichiers crées par compilation.
+in order to copy files to real local machine, we have to do some more step.
+
+---Reference---
+API OSEK + Poly
+
+--Explaination--
+1. We'll work with both file .c and .oib
+2. Create two tasks on file .oib : TASK, COUNTER, ALARM on both tasks
+3. Focus on the relation event + data port between two tasks, create dependency
+4. For the file .c, create again relation between two tasks. They share a same resource.
+5. Pay attention on Switch-case part (with the help of State chart in annoncementof TP) in the second task.
